@@ -7,8 +7,8 @@ Usage:
     python download_models.py --only laya-multilingual
 
     # 从 GitHub Releases 下载 zip（体积大时推荐给用户）
-    python download_models.py --from-release --repo heizicao/laya --tag v1.0.0
-    python download_models.py --from-release --repo heizicao/laya --tag v1.0.0 --only laya
+    python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0
+    python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0 --only laya
 
 Layout written (default MODEL_DIR=./laya-main/models):
     laya/
@@ -132,8 +132,8 @@ def main() -> None:
     )
     parser.add_argument(
         "--repo",
-        default=os.environ.get("LAYA_RELEASE_REPO", ""),
-        help="GitHub repo for releases, e.g. heizicao/laya",
+        default=os.environ.get("LAYA_RELEASE_REPO", "heizicao/Laya"),
+        help="GitHub repo for releases, e.g. heizicao/Laya",
     )
     parser.add_argument(
         "--tag",

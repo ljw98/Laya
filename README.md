@@ -1,7 +1,8 @@
-# jev / heizicao-laya
+# jev / heizicao-Laya
 
 基于 [Laya](https://github.com/NandhaKishorM/laya)（非自回归 System 1 决策模型）的本地 Web 控制台：贴一段文本，出一道类型化问题，一次前向得到答案与置信度。
 
+- 仓库：https://github.com/heizicao/Laya
 - 镜像名：`heizicao/laya`
 - 默认端口：`8787`
 - 代码在仓库；**模型 zip 放在 GitHub Releases**（单文件远超 100MB，不能进 git）
@@ -45,14 +46,15 @@ gh release create v1.0.0 `
   releases/laya.zip `
   releases/laya-multilingual.zip `
   releases/laya-typed-decisions.zip `
+  --repo heizicao/Laya `
   --title "Laya model weights" `
-  --notes "Checkpoints for heizicao/laya console"
+  --notes "Checkpoints for heizicao/Laya console"
 ```
 
 用户下载（解压到 `laya-main/models/<对应名字>/`）：
 
 ```powershell
-python download_models.py --from-release --repo heizicao/laya --tag v1.0.0
+python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0
 # 或手动：
 # 解压 laya.zip            -> laya-main/models/laya/
 # 解压 laya-multilingual.zip -> laya-main/models/laya-multilingual/
@@ -71,7 +73,7 @@ python download_models.py --hf-endpoint https://hf-mirror.com
 
 ```powershell
 # 1) 准备权重（任选一种）
-python download_models.py --from-release --repo <你的仓库> --tag v1.0.0
+python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0
 python download_models.py --hf-endpoint https://hf-mirror.com
 # 或 $env:LAYA_MODEL_MODE="auto"
 
@@ -94,7 +96,7 @@ docker load -i heizicao-laya-latest.tar
 ```powershell
 pip install -r requirements.txt
 pip install -e ./laya-main
-python download_models.py --from-release --repo <你的仓库> --tag v1.0.0
+python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0
 python server.py
 ```
 
