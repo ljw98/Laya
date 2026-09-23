@@ -1,0 +1,15 @@
+# 构建上下文：模型权重不打进镜像
+.git
+.gitignore
+logs/
+examples/
+*.log
+*.zip
+laya-main/laya.egg-info/
+laya-main/models/
+laya-main/assets/
+laya-main/research/
+laya-main/notebooks/
+laya-main/tests/
+laya-main/.github/
+laya-main/demo.py

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Laya — 一题决策</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <span class="mark-dot"></span>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">Laya <span class="brand-accent">一题决策</span></div>
+        <div class="brand-sub">贴内容 · 出一题 · 看答案</div>
+      </div>
+    </div>
+    <div class="top-right">
+      <span class="pill" id="conn-pill">检测中…</span>
+    </div>
+    <div class="topbar-glow" aria-hidden="true"></div>
+  </header>
+
+  <main class="shell">
+    <section class="hero-panel">
+      <div class="field-label">0 · 选择模型</div>
+      <div class="seg full model-seg" role="tablist" id="model-seg">
+        <button type="button" class="seg-btn" data-model="english">
+          <span class="m-name">laya</span>
+          <span class="m-tag">english</span>
+        </button>
+        <button type="button" class="seg-btn active" data-model="multilingual">
+          <span class="m-name">laya-multilingual</span>
+          <span class="m-tag">100+ langs</span>
+        </button>
+        <button type="button" class="seg-btn" data-model="typed">
+          <span class="m-name">laya-typed-decisions</span>
+          <span class="m-tag">finetuned</span>
+        </button>
+      </div>
+      <p class="hint" id="model-hint">当前：多语言版 · mmBERT-base · 1024 上下文 · 中文/多语更稳，速度更快</p>
+
+      <label class="field-label" for="state-text">1 · 粘贴内容</label>
+      <textarea id="state-text" class="input big" rows="6" placeholder="粘贴邮件、工单、评论或任意文本…">你好，三月账单被扣了两次。请今天退重复的费用，否则我们会取消订阅。</textarea>
+
+      <div class="field-label">2 · 出一道题</div>
+      <div class="q-card">
+        <div class="seg" role="tablist" id="type-seg">
+          <button type="button" class="seg-btn active" data-type="choice">选项</button>
+          <button type="button" class="seg-btn" data-type="score">打分</button>
+          <button type="button" class="seg-btn" data-type="noul">是非</button>
+        </div>
+        <input id="q-ins" class="q-ins" placeholder="要问什么？例如：客户想要什么？" value="客户想要什么？" />
+        <textarea id="q-crit" class="q-crit" placeholder="每行一个选项">退款
+技术支持
+账单咨询
+咨询信息
+取消订阅
+其他</textarea>
+        <p class="hint" id="crit-hint">选项题：每行一个选项，模型从中选一个</p>
+      </div>
+
+      <button type="button" class="btn primary big" id="run">3 · 开始分析</button>
+    </section>
+
+    <section class="stage">
+      <div id="empty" class="empty">
+        <div class="empty-card">
+          <h3>三种问法</h3>
+          <p><b>选项</b>：从列表里选一个（意图、部门、话题…）<br />
+             <b>打分</b>：按档位从低到高（紧急度、危害等级…）<br />
+             <b>是非</b>：判断是否成立（退款、钓鱼、越狱…）</p>
+          <p class="hint" style="margin-top:12px">Laya 更擅长：工单分诊、邮件分类、内容安全、提示护栏。</p>
+        </div>
+      </div>
+      <div id="result" class="result hidden"></div>
+
+      <div class="panel code-panel">
+        <div class="panel-head">
+          <h2>接口调用示例</h2>
+          <button type="button" class="btn tiny" id="copy-req">复制</button>
+        </div>
+        <div class="req-block">
+          <div class="req-label">请求</div>
+          <pre class="mono">POST http://127.0.0.1:8787/api/predict
+Content-Type: application/json</pre>
+        </div>
+        <div class="req-block">
+          <div class="req-label">请求体（随左侧输入自动更新）</div>
+          <pre class="mono" id="req-body"></pre>
+        </div>
+        <div class="req-block">
+          <div class="req-label">可设参数</div>
+          <div class="param-table">
+            <div class="param-row">
+              <code>model</code>
+              <span>字符串，选检查点：<b>english</b> / <b>multilingual</b> / <b>typed</b>（对应 laya、laya-multilingual、laya-typed-decisions）</span>
+            </div>
+            <div class="param-row">
+              <code>state</code>
+              <span>对象或字符串。常用 <b>state.text</b>；也可放任意 JSON 字段（如 from / subject / body）</span>
+            </div>
+            <div class="param-row">
+              <code>questions</code>
+              <span>对象，键为题目 id（如 q1），值为题目定义</span>
+            </div>
+            <div class="param-row">
+              <code>questions.*.type</code>
+              <span>题型，三选一：<b>choice</b> 选项 / <b>score</b> 打分 / <b>noul</b> 是非</span>
+            </div>
+            <div class="param-row">
+              <code>questions.*.instructions</code>
+              <span>字符串，要问的问题</span>
+            </div>
+            <div class="param-row">
+              <code>questions.*.criteria</code>
+              <span>choice：对象 <code>{"标签": "说明"}</code>（说明可省略）<br />
+                   score：数组，从低到高档位 <code>["不紧急", "…"]</code><br />
+                   noul：可不填</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

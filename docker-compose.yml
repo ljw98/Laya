@@ -1,0 +1,18 @@
+services:
+  laya-console:
+    build: .
+    image: heizicao/laya:latest
+    container_name: laya-console
+    ports:
+      - "8787:8787"
+    environment:
+      LAYA_HOST: "0.0.0.0"
+      LAYA_PORT: "8787"
+      # local: 只用本地目录；auto: 缺失时自动从 Hugging Face 下载
+      LAYA_MODEL_MODE: "${LAYA_MODEL_MODE:-local}"
+      # 可选：国内镜像 https://hf-mirror.com；不设则用官方 https://huggingface.co
+      HF_ENDPOINT: "${HF_ENDPOINT:-}"
+    volumes:
+      - ./laya-main/models:/app/laya-main/models
+      - ./logs:/app/logs
+    restart: unless-stopped

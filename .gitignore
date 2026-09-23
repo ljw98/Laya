@@ -1,0 +1,41 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# ---- 运行时 / 日志 ----
+logs/
+*.log
+*.tmp
+body*.json
+t-*.json
+emo.json
+examples/emo.json
+
+# ---- 模型权重（勿进 git；用 Releases / HF 下载）----
+laya-main/models/**/model.safetensors
+laya-main/models/**/*.bin
+laya-main/models/**/*.pt
+laya-main/models/**/*.ckpt
+
+# ---- Releases 打包产物（上传用，勿进 git）----
+releases/*.zip
+releases/*.tar
+
+# ---- 导出镜像 / 构建产物 ----
+*.tar
+*.tar.gz
+heizicao-jev-latest.tar
+heizicao-laya-latest.tar
+laya-main.zip
+laya-main/laya.egg-info/
+
+# ---- 编辑器 / 系统 ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

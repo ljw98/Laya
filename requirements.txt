@@ -1,0 +1,13 @@
+# Laya Console 运行依赖
+# Python >= 3.10
+# 模型权重：手动放到 MODEL_DIR，或 LAYA_MODEL_MODE=auto 时下载（可用 HF_ENDPOINT）
+
+# Web API
+flask>=3.0
+
+# Laya 推理栈
+torch>=2.5.0
+transformers>=4.48.0
+safetensors>=0.4.0
+huggingface_hub>=0.20.0
+numpy>=1.20.0
