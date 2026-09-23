@@ -1,14 +1,13 @@
-"""Download Laya checkpoints into a local models folder.
+﻿"""Download Laya checkpoints into a local models folder.
 
 Usage:
-    # 默认：从 Hugging Face 下载
+    # 榛樿锛氫粠 Hugging Face 涓嬭浇
     python download_models.py
     python download_models.py --hf-endpoint https://hf-mirror.com
     python download_models.py --only laya-multilingual
 
-    # 从 GitHub Releases 下载 zip（体积大时推荐给用户）
-    python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0
-    python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0 --only laya
+    # 浠?GitHub Releases 涓嬭浇 zip锛堜綋绉ぇ鏃舵帹鑽愮粰鐢ㄦ埛锛?    python download_models.py --from-release --repo ljw98/Laya --tag v1.0.0
+    python download_models.py --from-release --repo ljw98/Laya --tag v1.0.0 --only laya
 
 Layout written (default MODEL_DIR=./laya-main/models):
     laya/
@@ -25,7 +24,7 @@ import zipfile
 from pathlib import Path
 
 BUNDLE_REPO = os.environ.get("LAYA_HF_REPO", "convaiinnovations/laya")
-# 本地目录名 -> HF 合并仓库中的子目录（None = 根目录）
+# 鏈湴鐩綍鍚?-> HF 鍚堝苟浠撳簱涓殑瀛愮洰褰曪紙None = 鏍圭洰褰曪級
 SUBFOLDERS = {
     "laya": None,
     "laya-multilingual": "multilingual",
@@ -77,7 +76,7 @@ def download_one_hf(name: str, subfolder: str | None, dest: Path) -> None:
 
 
 def download_one_release(name: str, dest: Path, repo: str, tag: str) -> None:
-    """下载 GitHub Release 资产 <name>.zip 并解压到 dest/<name>/。"""
+    """涓嬭浇 GitHub Release 璧勪骇 <name>.zip 骞惰В鍘嬪埌 dest/<name>/銆?""
     out_dir = dest / name
     if is_complete(out_dir):
         print(f"  skip  {name} (already complete)")
@@ -93,8 +92,7 @@ def download_one_release(name: str, dest: Path, repo: str, tag: str) -> None:
         print(f"  unzip {name}.zip -> {out_dir}")
         with zipfile.ZipFile(tmp_path, "r") as zf:
             zf.extractall(out_dir)
-        # 若 zip 内又套了一层 <name>/，上移一层
-        nested = out_dir / name
+        # 鑻?zip 鍐呭張濂椾簡涓€灞?<name>/锛屼笂绉讳竴灞?        nested = out_dir / name
         if nested.is_dir() and (nested / "rl_agent_config.json").exists():
             for child in nested.iterdir():
                 target = out_dir / child.name
@@ -132,8 +130,8 @@ def main() -> None:
     )
     parser.add_argument(
         "--repo",
-        default=os.environ.get("LAYA_RELEASE_REPO", "heizicao/Laya"),
-        help="GitHub repo for releases, e.g. heizicao/Laya",
+        default=os.environ.get("LAYA_RELEASE_REPO", "ljw98/Laya"),
+        help="GitHub repo for releases, e.g. ljw98/Laya",
     )
     parser.add_argument(
         "--tag",
@@ -148,7 +146,7 @@ def main() -> None:
 
     if args.from_release:
         if not args.repo:
-            parser.error("--from-release 需要 --repo owner/name")
+            parser.error("--from-release 闇€瑕?--repo owner/name")
         print(f"source: GitHub Releases {args.repo} tag={args.tag}")
         print(f"model dir: {dest}")
         for name in names:
@@ -168,3 +166,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

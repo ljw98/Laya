@@ -1,115 +1,110 @@
-# jev / heizicao-Laya
+﻿# jev / ljw98-Laya
 
-基于 [Laya](https://github.com/NandhaKishorM/laya)（非自回归 System 1 决策模型）的本地 Web 控制台：贴一段文本，出一道类型化问题，一次前向得到答案与置信度。
-
-- 仓库：https://github.com/heizicao/Laya
-- 镜像名：`heizicao/laya`
-- 默认端口：`8787`
-- 代码在仓库；**模型 zip 放在 GitHub Releases**（单文件远超 100MB，不能进 git）
-
+鍩轰簬 [Laya](https://github.com/NandhaKishorM/laya)锛堥潪鑷洖褰?System 1 鍐崇瓥妯″瀷锛夌殑鏈湴 Web 鎺у埗鍙帮細璐翠竴娈垫枃鏈紝鍑轰竴閬撶被鍨嬪寲闂锛屼竴娆″墠鍚戝緱鍒扮瓟妗堜笌缃俊搴︺€?
+- 浠撳簱锛歨ttps://github.com/ljw98/Laya
+- 闀滃儚鍚嶏細`ljw98/Laya`
+- 榛樿绔彛锛歚8787`
+- 浠ｇ爜鍦ㄤ粨搴擄紱**妯″瀷 zip 鏀惧湪 GitHub Releases**锛堝崟鏂囦欢杩滆秴 100MB锛屼笉鑳借繘 git锛?
 ```text
 jev/
-├── index.html / app.css / app.js   # Web 界面
-├── server.py                       # Flask API
-├── download_models.py              # HF 或 GitHub Releases 下载
-├── Dockerfile / docker-compose.yml
-├── requirements.txt
-├── examples/demo_cli.py
-├── logs/                           # gitignore
-├── releases/                       # 本地打包 zip（gitignore），用于传 Release
-└── laya-main/                      # Laya 源码 + models/
-    ├── laya/
-    └── models/
-        ├── laya/
-        ├── laya-multilingual/
-        └── laya-typed-decisions/
+鈹溾攢鈹€ index.html / app.css / app.js   # Web 鐣岄潰
+鈹溾攢鈹€ server.py                       # Flask API
+鈹溾攢鈹€ download_models.py              # HF 鎴?GitHub Releases 涓嬭浇
+鈹溾攢鈹€ Dockerfile / docker-compose.yml
+鈹溾攢鈹€ requirements.txt
+鈹溾攢鈹€ examples/demo_cli.py
+鈹溾攢鈹€ logs/                           # gitignore
+鈹溾攢鈹€ releases/                       # 鏈湴鎵撳寘 zip锛坓itignore锛夛紝鐢ㄤ簬浼?Release
+鈹斺攢鈹€ laya-main/                      # Laya 婧愮爜 + models/
+    鈹溾攢鈹€ laya/
+    鈹斺攢鈹€ models/
+        鈹溾攢鈹€ laya/
+        鈹溾攢鈹€ laya-multilingual/
+        鈹斺攢鈹€ laya-typed-decisions/
 ```
 
-## 获取模型权重
+## 鑾峰彇妯″瀷鏉冮噸
 
-### 方式 1：GitHub Releases（给用户直接下）
+### 鏂瑰紡 1锛欸itHub Releases锛堢粰鐢ㄦ埛鐩存帴涓嬶級
 
-本仓库 `releases/` 已打好三个 zip（打包机本地）：
+鏈粨搴?`releases/` 宸叉墦濂戒笁涓?zip锛堟墦鍖呮満鏈湴锛夛細
 
-| 文件 | 约大小 |
+| 鏂囦欢 | 绾﹀ぇ灏?|
 |---|---|
 | `releases/laya.zip` | 742 MB |
 | `releases/laya-multilingual.zip` | 572 MB |
 | `releases/laya-typed-decisions.zip` | 742 MB |
 
-上传到 GitHub Release（示例 tag `v1.0.0`，仓库名以你实际为准）：
+涓婁紶鍒?GitHub Release锛堢ず渚?tag `v1.0.0`锛屼粨搴撳悕浠ヤ綘瀹為檯涓哄噯锛夛細
 
 ```powershell
-# 网页：Releases → Draft → 上传上述三个 zip
-# 或 gh（需已登录）：
-gh release create v1.0.0 `
+# 缃戦〉锛歊eleases 鈫?Draft 鈫?涓婁紶涓婅堪涓変釜 zip
+# 鎴?gh锛堥渶宸茬櫥褰曪級锛?gh release create v1.0.0 `
   releases/laya.zip `
   releases/laya-multilingual.zip `
   releases/laya-typed-decisions.zip `
-  --repo heizicao/Laya `
+  --repo ljw98/Laya `
   --title "Laya model weights" `
-  --notes "Checkpoints for heizicao/Laya console"
+  --notes "Checkpoints for ljw98/Laya console"
 ```
 
-用户下载（解压到 `laya-main/models/<对应名字>/`）：
+鐢ㄦ埛涓嬭浇锛堣В鍘嬪埌 `laya-main/models/<瀵瑰簲鍚嶅瓧>/`锛夛細
 
 ```powershell
-python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0
-# 或手动：
-# 解压 laya.zip            -> laya-main/models/laya/
-# 解压 laya-multilingual.zip -> laya-main/models/laya-multilingual/
-# 解压 laya-typed-decisions.zip -> laya-main/models/laya-typed-decisions/
+python download_models.py --from-release --repo ljw98/Laya --tag v1.0.0
+# 鎴栨墜鍔細
+# 瑙ｅ帇 laya.zip            -> laya-main/models/laya/
+# 瑙ｅ帇 laya-multilingual.zip -> laya-main/models/laya-multilingual/
+# 瑙ｅ帇 laya-typed-decisions.zip -> laya-main/models/laya-typed-decisions/
 ```
 
-### 方式 2：Hugging Face
+### 鏂瑰紡 2锛欻ugging Face
 
 ```powershell
 python download_models.py --hf-endpoint https://hf-mirror.com
 ```
 
-## 快速开始
-
+## 蹇€熷紑濮?
 ### Docker
 
 ```powershell
-# 1) 准备权重（任选一种）
-python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0
+# 1) 鍑嗗鏉冮噸锛堜换閫変竴绉嶏級
+python download_models.py --from-release --repo ljw98/Laya --tag v1.0.0
 python download_models.py --hf-endpoint https://hf-mirror.com
-# 或 $env:LAYA_MODEL_MODE="auto"
+# 鎴?$env:LAYA_MODEL_MODE="auto"
 
-# 2) 启动
+# 2) 鍚姩
 docker-compose up -d --build
 
-# 3) 打开
+# 3) 鎵撳紑
 # http://127.0.0.1:8787
 ```
 
-导出镜像：
-
+瀵煎嚭闀滃儚锛?
 ```powershell
-docker save -o heizicao-laya-latest.tar heizicao/laya:latest
-docker load -i heizicao-laya-latest.tar
+docker save -o ljw98-Laya-latest.tar ljw98/Laya:latest
+docker load -i ljw98-Laya-latest.tar
 ```
 
-### 本机 Python
+### 鏈満 Python
 
 ```powershell
 pip install -r requirements.txt
 pip install -e ./laya-main
-python download_models.py --from-release --repo heizicao/Laya --tag v1.0.0
+python download_models.py --from-release --repo ljw98/Laya --tag v1.0.0
 python server.py
 ```
 
-## 配置
+## 閰嶇疆
 
-| 环境变量 | 含义 | 默认 |
+| 鐜鍙橀噺 | 鍚箟 | 榛樿 |
 |---|---|---|
-| `LAYA_HOST` / `LAYA_PORT` | 监听地址 | `0.0.0.0:8787` |
-| `MODEL_DIR` | 权重根目录 | `./laya-main/models` |
-| `LAYA_MODEL_MODE` | `local` 仅本地 / `auto` 缺失自动下载 | `local` |
-| `HF_ENDPOINT` | Hugging Face 端点（可填镜像） | 官方 |
+| `LAYA_HOST` / `LAYA_PORT` | 鐩戝惉鍦板潃 | `0.0.0.0:8787` |
+| `MODEL_DIR` | 鏉冮噸鏍圭洰褰?| `./laya-main/models` |
+| `LAYA_MODEL_MODE` | `local` 浠呮湰鍦?/ `auto` 缂哄け鑷姩涓嬭浇 | `local` |
+| `HF_ENDPOINT` | Hugging Face 绔偣锛堝彲濉暅鍍忥級 | 瀹樻柟 |
 
-权重目录结构（每个检查点需完整）：
+鏉冮噸鐩綍缁撴瀯锛堟瘡涓鏌ョ偣闇€瀹屾暣锛夛細
 
 ```text
 laya-main/models/<name>/
@@ -120,23 +115,18 @@ laya-main/models/<name>/
   encoder/config.json
 ```
 
-`<name>` ∈ `laya` | `laya-multilingual` | `laya-typed-decisions`。
+`<name>` 鈭?`laya` | `laya-multilingual` | `laya-typed-decisions`銆?
+## Web 鐢ㄦ硶
 
-## Web 用法
-
-1. 选择模型（单模型驻留，切换时加载/卸载）
-2. 粘贴内容
-3. 出一道题（`choice` / `score` / `noul`）
-4. 开始分析
-
-| type | 输出 | 适合 |
+1. 閫夋嫨妯″瀷锛堝崟妯″瀷椹荤暀锛屽垏鎹㈡椂鍔犺浇/鍗歌浇锛?2. 绮樿创鍐呭
+3. 鍑轰竴閬撻锛坄choice` / `score` / `noul`锛?4. 寮€濮嬪垎鏋?
+| type | 杈撳嚭 | 閫傚悎 |
 |---|---|---|
-| `choice` | 选项 + 概率 + 置信度 | 意图、部门、话题 |
-| `score` | 期望档位 + 分布 | 紧急度、危害等级 |
-| `noul` | P(成立) 0~1 | 是否退款、是否钓鱼 |
+| `choice` | 閫夐」 + 姒傜巼 + 缃俊搴?| 鎰忓浘銆侀儴闂ㄣ€佽瘽棰?|
+| `score` | 鏈熸湜妗ｄ綅 + 鍒嗗竷 | 绱ф€ュ害銆佸嵄瀹崇瓑绾?|
+| `noul` | P(鎴愮珛) 0~1 | 鏄惁閫€娆俱€佹槸鍚﹂挀楸?|
 
-出题原则：问「文本里写了什么」，少问「心里怎么想」。工单分诊、内容安全、提示护栏更稳。
-
+鍑洪鍘熷垯锛氶棶銆屾枃鏈噷鍐欎簡浠€涔堛€嶏紝灏戦棶銆屽績閲屾€庝箞鎯炽€嶃€傚伐鍗曞垎璇娿€佸唴瀹瑰畨鍏ㄣ€佹彁绀烘姢鏍忔洿绋炽€?
 ## HTTP API
 
 ### `GET /api/health`
@@ -147,73 +137,59 @@ laya-main/models/<name>/
 
 ### `GET /api/models`
 
-检查点列表（是否本地完整、是否当前驻留）。
-
+妫€鏌ョ偣鍒楄〃锛堟槸鍚︽湰鍦板畬鏁淬€佹槸鍚﹀綋鍓嶉┗鐣欙級銆?
 ### `POST /api/model/select`
 
 ```json
 { "model": "english" | "multilingual" | "typed" }
 ```
 
-加载目标模型并卸载上一个（单模型驻留）。
-
+鍔犺浇鐩爣妯″瀷骞跺嵏杞戒笂涓€涓紙鍗曟ā鍨嬮┗鐣欙級銆?
 ### `POST /api/model/unload`
 
-卸载当前驻留模型。
-
+鍗歌浇褰撳墠椹荤暀妯″瀷銆?
 ### `POST /api/predict`
 
 ```json
 {
   "model": "multilingual",
-  "state": { "text": "请今天退款，否则取消订阅。" },
+  "state": { "text": "璇蜂粖澶╅€€娆撅紝鍚﹀垯鍙栨秷璁㈤槄銆? },
   "questions": {
     "q1": {
       "type": "choice",
-      "instructions": "客户想要什么？",
-      "criteria": { "退款": null, "技术支持": null, "其他": null }
+      "instructions": "瀹㈡埛鎯宠浠€涔堬紵",
+      "criteria": { "閫€娆?: null, "鎶€鏈敮鎸?: null, "鍏朵粬": null }
     }
   }
 }
 ```
 
-| 字段 | 说明 |
+| 瀛楁 | 璇存槑 |
 |---|---|
 | `model` | `english` \| `multilingual` \| `typed` |
-| `state` | 对象或字符串 |
+| `state` | 瀵硅薄鎴栧瓧绗︿覆 |
 | `questions.*.type` | `choice` \| `score` \| `noul` |
-| `questions.*.instructions` | 问题文本 |
-| `questions.*.criteria` | choice：`{"标签": "说明"}`；score：数组低→高；noul 可省略 |
+| `questions.*.instructions` | 闂鏂囨湰 |
+| `questions.*.criteria` | choice锛歚{"鏍囩": "璇存槑"}`锛泂core锛氭暟缁勪綆鈫掗珮锛沶oul 鍙渷鐣?|
 
-## 模型对照
+## 妯″瀷瀵圭収
 
-| API | 目录 | 特点 |
+| API | 鐩綍 | 鐗圭偣 |
 |---|---|---|
-| `english` | `models/laya` | ModernBERT-large，英文最准 |
-| `multilingual` | `models/laya-multilingual` | mmBERT，中文/多语更稳 |
-| `typed` | `models/laya-typed-decisions` | typed-decisions 微调 |
+| `english` | `models/laya` | ModernBERT-large锛岃嫳鏂囨渶鍑?|
+| `multilingual` | `models/laya-multilingual` | mmBERT锛屼腑鏂?澶氳鏇寸ǔ |
+| `typed` | `models/laya-typed-decisions` | typed-decisions 寰皟 |
 
-中文建议默认 `multilingual`。
+涓枃寤鸿榛樿 `multilingual`銆?
+## 鍐呭瓨璇存槑
 
-## 内存说明
+- **鍗曟ā鍨嬮┗鐣?*锛屼笉浼氫笁涓竴璧峰姞杞姐€?- 鍔犺浇 1 涓鏌ョ偣鏃惰繘绋?RSS 澶х害 **1.8鈥?GB**锛坒p32 鏉冮噸 + PyTorch锛夈€?- 鍒囨崲妯″瀷浼氬嵏杞戒笂涓€涓紱Python 鍒嗛厤鍣ㄥ彲鑳戒粛淇濈暀鏁扮櫨 MB锛屽睘姝ｅ父銆?
+## 鑳藉姏杈圭晫
 
-- **单模型驻留**，不会三个一起加载。
-- 加载 1 个检查点时进程 RSS 大约 **1.8–2GB**（fp32 权重 + PyTorch）。
-- 切换模型会卸载上一个；Python 分配器可能仍保留数百 MB，属正常。
-
-## 能力边界
-
-- 冷门/主观题（情感变化、心理推断）零样本可能接近随机；严肃业务请微调（见 `laya-main/notebooks/`）。
-- 选项很多（约 >50）时需调大 token 预算或 `predict_shortlist`。
-- 权重许可见 Laya 上游（Apache 2.0）。
-
-## 上传 GitHub 时注意
-
-- **不要提交** `laya-main/models/**/model.safetensors`、`*.tar`、`logs/`（已在 `.gitignore`）。
-- 仓库保持代码 + 文档即可；用户用 `download_models.py` 或 `LAYA_MODEL_MODE=auto` 取权重。
-- `laya-main/` 为 Laya 源码（Apache 2.0），上游：https://github.com/NandhaKishorM/laya
+- 鍐烽棬/涓昏棰橈紙鎯呮劅鍙樺寲銆佸績鐞嗘帹鏂級闆舵牱鏈彲鑳芥帴杩戦殢鏈猴紱涓ヨ們涓氬姟璇峰井璋冿紙瑙?`laya-main/notebooks/`锛夈€?- 閫夐」寰堝锛堢害 >50锛夋椂闇€璋冨ぇ token 棰勭畻鎴?`predict_shortlist`銆?- 鏉冮噸璁稿彲瑙?Laya 涓婃父锛圓pache 2.0锛夈€?
+## 涓婁紶 GitHub 鏃舵敞鎰?
+- **涓嶈鎻愪氦** `laya-main/models/**/model.safetensors`銆乣*.tar`銆乣logs/`锛堝凡鍦?`.gitignore`锛夈€?- 浠撳簱淇濇寔浠ｇ爜 + 鏂囨。鍗冲彲锛涚敤鎴风敤 `download_models.py` 鎴?`LAYA_MODEL_MODE=auto` 鍙栨潈閲嶃€?- `laya-main/` 涓?Laya 婧愮爜锛圓pache 2.0锛夛紝涓婃父锛歨ttps://github.com/NandhaKishorM/laya
 
 ## License
 
-- 本项目 Web/API 壳：随仓库约定
-- Laya 源码与权重：Apache 2.0（Convai Innovations）
+- 鏈」鐩?Web/API 澹筹細闅忎粨搴撶害瀹?- Laya 婧愮爜涓庢潈閲嶏細Apache 2.0锛圕onvai Innovations锛?
