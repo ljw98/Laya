@@ -7,6 +7,8 @@
 - **默认端口**：`8787`
 - **模型权重**：不进 git，从 GitHub Releases 或 Hugging Face 下载
 
+![Laya Console 界面预览](docs/ui-screenshot.png)
+
 ```text
 .
 ├── index.html / app.css / app.js   # Web 界面
